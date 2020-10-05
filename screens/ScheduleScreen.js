@@ -1,6 +1,7 @@
-import React, {useState, useEffect} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, SafeAreaView, ScrollView} from 'react-native';
+import React, { useContext, useState, useEffect } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
 import CourseList from '../components/CourseList'
+import UserContext from '../UserContext';
 
 const schedule = {
     "title": "CS Courses for 2018-2019",
@@ -31,20 +32,22 @@ const schedule = {
 
 
 
-const Banner = ({title}) => (
+const Banner = ({ title }) => (
     <Text style={styles.bannerStyle}>{title || 'Loading'}</Text>
 );
 
-const ScheduleScreen = ({navigation}) => {
+const ScheduleScreen = ({ navigation }) => {
+    const user = useContext(UserContext);
     const [schedule, setSchedule] = useState({ title: '', courses: [] });
+    const canEdit = user && user.role === 'admin';
     const view = (course) => {
-        navigation.navigate('CourseDetailScreen', { course });
-      };
+        navigation.navigate(canEdit ? 'CourseEditScreen' : 'CourseDetailScreen', { course });
+    };
 
     const url = 'https://courses.cs.northwestern.edu/394/data/cs-courses.php';
 
     useEffect(() => {
-        const fetchSchedule =  async () => {
+        const fetchSchedule = async () => {
             const response = await fetch(url);
             if (!response.ok) throw response;
             const json = await response.json();
@@ -55,8 +58,8 @@ const ScheduleScreen = ({navigation}) => {
 
     return (
         <SafeAreaView style={styles.container}>
-        <Banner title={schedule.title} />
-        <CourseList courses={schedule.courses} view={view} />
+            <Banner title={schedule.title} />
+            <CourseList courses={schedule.courses} view={view} />
         </SafeAreaView>
     );
 };
