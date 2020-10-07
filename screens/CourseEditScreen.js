@@ -26,7 +26,7 @@ const validationSchema = Yup.object().shape({
       .label('Title'),
   });
 
-const CourseEditScreen = ({navigation,route}) => {
+const CourseEditScreen = ({route}) => {
   const course = route.params.course;
   return (
     <SafeAreaView style={styles.container}>
@@ -66,9 +66,9 @@ const CourseEditScreen = ({navigation,route}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
+    // alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#ccccb3'
+    backgroundColor: '#ccccb3',
   },
   field: {
     height: 40,
