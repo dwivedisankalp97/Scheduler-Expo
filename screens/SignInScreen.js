@@ -62,7 +62,6 @@ const validationSchema = Yup.object().shape({
               secureTextEntry={true}
               textContentType="password"
             />
-            Enter password again below to sign up
             <Form.Field
               name="confirmPassword"
               leftIcon="lock"
